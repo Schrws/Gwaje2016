@@ -1,6 +1,7 @@
 package proj.controller;
 
 import com.sun.istack.internal.NotNull;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,9 @@ import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Source;
 import proj.Util;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 public class LoginController {
     @FXML
@@ -24,18 +27,28 @@ public class LoginController {
     private TextField id, passwd;
 
     @FXML
-    public void Login(ActionEvent event) throws Exception {
-        if (Util.login(id.getText(), passwd.getText())) {
-            status.setText("Login Success.");
-
-            Stage primaryStage = Stage.class.cast(Control.class.cast(event.getSource()).getScene().getWindow());
-            Parent root = FXMLLoader.load(getClass().getResource("/proj/main.fxml"));
-            Scene scene = new Scene(root);
-            primaryStage.setTitle("SASA BIS");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } else {
-            status.setText("Login Failed.");
-        }
+    public void Login(ActionEvent event) {
+        status.setText("Please Wait...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (Util.login(id.getText(), passwd.getText())) {
+                    Platform.runLater(new FutureTask<>(new Runnable() {
+                        @Override
+                        public void run() {
+                            status.setText("Login Success.");
+                            Stage primaryStage = Stage.class.cast(Control.class.cast(event.getSource()).getScene().getWindow());
+                            try {
+                                Parent root = FXMLLoader.load(getClass().getResource("/proj/main.fxml"));
+                                Scene scene = new Scene(root);
+                                primaryStage.setTitle("SASA BIS");
+                                primaryStage.setScene(scene);
+                                primaryStage.show();
+                            } catch (IOException ignored) {}
+                        }
+                    }, null));
+                } else Platform.runLater(new FutureTask<>(() -> status.setText("Login Failed."), null));
+            }
+        }).start();
     }
 }

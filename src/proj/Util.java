@@ -20,41 +20,30 @@ import java.util.List;
  */
 public class Util {
     public static DefaultHttpClient httpclient;
-    public static boolean login(String id, String passwd) throws Exception {
-        if (httpclient == null) httpclient = new DefaultHttpClient();
-        HttpResponse response;
-        HttpEntity entity;
+    public static boolean login(String id, String passwd) {
+        try {
+            if (httpclient == null) httpclient = new DefaultHttpClient();
+            HttpResponse response;
+            HttpEntity entity;
 
-        HttpPost httpost = new HttpPost("https://bis.sasa.hs.kr/lib/session.php");
+            HttpPost httpost = new HttpPost("https://bis.sasa.hs.kr/lib/session.php");
 
-        List<NameValuePair> nvps = new ArrayList<>();
-        nvps.add(new BasicNameValuePair("id", id));
-        nvps.add(new BasicNameValuePair("passwd", passwd));
-        httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.ISO_8859_1));
-        response = httpclient.execute(httpost);
-        entity = response.getEntity();
-        System.out.println(response.getStatusLine());
-        BufferedReader rd = null;
-        if (entity != null) rd = new BufferedReader(new java.io.InputStreamReader(entity.getContent()));
-        if (rd == null) return false;
-        String line;
-        StringBuilder result = new StringBuilder();
-        while ((line = rd.readLine()) != null)
-            result.append(line);
-        rd.close();
+            List<NameValuePair> nvps = new ArrayList<>();
+            nvps.add(new BasicNameValuePair("id", id));
+            nvps.add(new BasicNameValuePair("passwd", passwd));
+            httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.ISO_8859_1));
+            response = httpclient.execute(httpost);
+            entity = response.getEntity();
+            System.out.println(response.getStatusLine());
+            BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(entity.getContent()));
+            String line;
+            StringBuilder result = new StringBuilder();
+            while ((line = rd.readLine()) != null)
+                result.append(line);
+            rd.close();
 
-/*
-        if (cookies.isEmpty()) {
-            System.out.println("None");
-        } else {
-            for (int i = 0; i < cookies.size(); i++) {
-                System.out.println("- " + cookies.get(i).toString());
-            }
-        }
-        if (entity != null) {
-            entity.consumeContent();
-        }*/
-        return result.toString().contains("info.php");
+            return result.toString().contains("info.php");
+        } catch (Exception e) {return false;}
     }
 
     public static String loadFromWeb(String url) throws Exception {
