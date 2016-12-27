@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
-public class LoginController {
+public class LoginController extends Controller {
     @FXML
     private Label status;
     @FXML
@@ -37,7 +37,6 @@ public class LoginController {
                         @Override
                         public void run() {
                             status.setText("Login Success.");
-                            Stage primaryStage = Stage.class.cast(Control.class.cast(event.getSource()).getScene().getWindow());
                             try {
                                 Parent root = FXMLLoader.load(getClass().getResource("/proj/main.fxml"));
                                 Scene scene = new Scene(root);
@@ -51,4 +50,7 @@ public class LoginController {
             }
         }).start();
     }
+
+    @Override
+    public void loadContent() {}
 }

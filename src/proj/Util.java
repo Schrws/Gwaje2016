@@ -43,7 +43,7 @@ public class Util {
             rd.close();
 
             return result.toString().contains("info.php");
-        } catch (Exception e) {return false;}
+        } catch (Exception e) {e.printStackTrace();return false;}
     }
 
     public static String loadFromWeb(String url) throws Exception {
