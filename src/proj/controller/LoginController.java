@@ -44,7 +44,7 @@ public class LoginController {
                                 primaryStage.setTitle("SASA BIS");
                                 primaryStage.setScene(scene);
                                 primaryStage.show();
-                            } catch (IOException ignored) {}
+                            } catch (IOException ignored) {ignored.printStackTrace();}
                         }
                     }, null));
                 } else Platform.runLater(new FutureTask<>(() -> status.setText("Login Failed."), null));

@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Init extends Application {
+    private static Stage primaryStage, postStage;
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Init.primaryStage = primaryStage;
+        postStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         primaryStage.setTitle("LOGIN");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -36,5 +39,13 @@ public class Init extends Application {
     @Override
     public void stop() {
         Util.httpclient.getConnectionManager().shutdown();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static Stage getPostStage() {
+        return postStage;
     }
 }
