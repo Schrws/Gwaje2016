@@ -46,7 +46,7 @@ public class Util { //다른 클래스들에서 공통적으로 사용할 수 �
             System.out.println(response.getStatusLine());
 
             return getResult(response.getEntity()).contains("info.php");
-        } catch (Exception e) {return false;}
+        } catch (Exception e) {return false;} //에러 발생 시 실패.
     }
 
     public static String loadFromWeb(String url) throws Exception { //웹 접속의 html 응답을 getResult에 넘겨 html 코드를 반환한다.
@@ -84,8 +84,6 @@ public class Util { //다른 클래스들에서 공통적으로 사용할 수 �
             ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
 
             return new DefaultHttpClient(ccm, params);
-        } catch (Exception e) {
-            return new DefaultHttpClient();
-        }
+        } catch (Exception e) {return new DefaultHttpClient();}
     }
 }

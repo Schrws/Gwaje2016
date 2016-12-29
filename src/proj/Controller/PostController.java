@@ -41,7 +41,7 @@ public class PostController extends Controller { //게시글의 내용을 화면
                     author.setText(Jsoup.parse(divList.get(0).getContent().toString()).text());
                     content.getEngine().loadContent(Jsoup.parse(divList2.get(0).getContent().toString()).text());
                     browser.setText("브라우저에서 열기");
-                    browser.setOnAction(event -> {
+                    browser.setOnAction(event -> { //해당 게시글을 브라우저에서 열도록 함.
                         try {
                             Desktop.getDesktop().browse(new URI(link));
                         } catch (Exception ignored) {ignored.printStackTrace();}

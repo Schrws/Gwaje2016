@@ -36,7 +36,6 @@ public class LSSLSocketFactory extends SSLSocketFactory { //http://blog.saltfact
         };
 
         sslContext.init(null, new TrustManager[]{tm}, null);
-//        sslContext.init(null, new TrustManager[] { tm }, new SecureRandom());
     }
 
     @Override

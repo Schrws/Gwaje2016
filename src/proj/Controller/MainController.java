@@ -78,7 +78,7 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
             PostItem item = postItems.get(i);
             Hyperlink label_title = new Hyperlink(item.getTitle().trim());
             label_title.setId(item.getLink());
-            label_title.setOnAction(event -> {
+            label_title.setOnAction(event -> { //HyperLink가 클릭되면 글의 내용을 표시하는 postStage가 뜨도록 함.
                 try {
                     postStage.setUserData(((Hyperlink) event.getSource()).getId());
                     postStage.setTitle(((Hyperlink) event.getSource()).getText());
@@ -92,7 +92,7 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
         }
     }
 
-    private Runnable mainRunnable = new Runnable() {
+    private Runnable mainRunnable = new Runnable() { //메인화면의 내용을 불러와 표시함.
         @Override
         public void run() {
             try {
@@ -120,22 +120,22 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
                     labels.add(label);
                 }
                 Platform.runLater(new FutureTask<>(() -> {
-                    addPost(post_list);
+                    addPost(post_list); //게시글 Pane에 추가
                     meal_list.getChildren().clear();
                     for (Label label : labels)
-                        meal_list.getChildren().add(label);
+                        meal_list.getChildren().add(label); //급식 VBox에 추가
                     primaryStage.sizeToScene();
                 }, null));
             } catch (Exception ignored) {ignored.printStackTrace();}
         }
     };
 
-    private class BoardRunnable implements Runnable {
+    private class BoardRunnable implements Runnable { //각 게시판의 내용을 불러와 화면에 표시/
         int page;
         int board_id;
         GridPane pane;
 
-        public BoardRunnable(GridPane pane, int page, int board_id) {this.pane = pane; this.page = page; this.board_id = board_id;}
+        public BoardRunnable(GridPane pane, int page, int board_id) {this.pane = pane; this.page = page; this.board_id = board_id;} //게시판, 페이지, 게시판 id를 받아 해당 게시판의 내용을 표시함.
 
         @Override
         public void run() {
@@ -153,11 +153,11 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
                     String link = "/common/board/" + a.attr("href");
                     String author = tdList.get(2).text();
                     String date = tdList.get(3).text();
-                    postItems.add(new PostItem(title, link, author, date));
+                    postItems.add(new PostItem(title, link, author, date)); //게시글 List에 추가
                 }
 
                 Platform.runLater(new FutureTask<>(() -> {
-                    addPost(pane);
+                    addPost(pane); //실제 게시판 Pane에 추가
                     primaryStage.sizeToScene();
                 }, null));
             } catch (Exception ignored) {ignored.printStackTrace();}
