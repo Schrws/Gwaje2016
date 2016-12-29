@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane fx:id="tabpane" prefWidth="1300" prefHeight="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proj.Controller.MainController">
+    <Tab fx:id="maintab" closable="false" text="Main" onSelectionChanged="#tabChanged">
+        <GridPane fx:id="grid_main">
+            <Label alignment="CENTER" text="POST" textFill="#d31c1c" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER" text="MEAL" textFill="#d31c1c" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <GridPane fx:id="post_list" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <VBox fx:id="meal_list" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        </GridPane>
+    </Tab>
+    <Tab fx:id="noticetab" closable="false" text="공지사항" onSelectionChanged="#tabChanged">
+        <VBox>
+            <GridPane fx:id="notice_list"/>
+            <Pagination fx:id="pagination_notice"/>
+        </VBox>
+    </Tab>
+    <Tab fx:id="losttab" closable="false" text="분실물" onSelectionChanged="#tabChanged">
+        <VBox>
+            <GridPane fx:id="lost_list"/>
+            <Pagination fx:id="pagination_lost"/>
+        </VBox>
+    </Tab>
+    <Tab fx:id="subjtab" closable="false" text="교과별공지" onSelectionChanged="#tabChanged">
+        <VBox>
+            <GridPane fx:id="subj_list"/>
+            <Pagination fx:id="pagination_subj"/>
+        </VBox>
+    </Tab>
+    <Tab fx:id="freetab" closable="false" text="자유게시판" onSelectionChanged="#tabChanged">
+        <VBox>
+            <GridPane fx:id="free_list"/>
+            <Pagination fx:id="pagination_free"/>
+        </VBox>
+    </Tab>
+</TabPane>

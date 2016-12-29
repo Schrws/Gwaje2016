@@ -1,4 +1,4 @@
-package proj.controller;
+package proj.Controller;
 
 import javafx.fxml.FXML;
 import javafx.stage.Stage;

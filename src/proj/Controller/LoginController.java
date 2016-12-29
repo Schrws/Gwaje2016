@@ -1,23 +1,16 @@
-package proj.controller;
+package proj.Controller;
 
-import com.sun.istack.internal.NotNull;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import net.htmlparser.jericho.Element;
-import net.htmlparser.jericho.HTMLElementName;
-import net.htmlparser.jericho.Source;
 import proj.Util;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.FutureTask;
 
 public class LoginController extends Controller {
@@ -38,10 +31,11 @@ public class LoginController extends Controller {
                         public void run() {
                             status.setText("Login Success.");
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/proj/main.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("/proj/FXML/main.fxml"));
                                 Scene scene = new Scene(root);
                                 primaryStage.setTitle("SASA BIS");
                                 primaryStage.setScene(scene);
+                                primaryStage.sizeToScene();
                                 primaryStage.show();
                             } catch (IOException ignored) {ignored.printStackTrace();}
                         }

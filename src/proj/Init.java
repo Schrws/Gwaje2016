@@ -5,20 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-
-import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Init extends Application {
     private static Stage primaryStage, postStage;
@@ -26,7 +12,7 @@ public class Init extends Application {
     public void start(Stage primaryStage) throws Exception {
         Init.primaryStage = primaryStage;
         postStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/proj/FXML/login.fxml"));
         primaryStage.setTitle("LOGIN");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
@@ -38,7 +24,7 @@ public class Init extends Application {
 
     @Override
     public void stop() {
-        Util.httpclient.getConnectionManager().shutdown();
+        if (Util.httpclient != null) Util.httpclient.getConnectionManager().shutdown();
     }
 
     public static Stage getPrimaryStage() {

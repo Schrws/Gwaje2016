@@ -1,4 +1,4 @@
-package proj.item;
+package proj.Item;
 
 /**
  * Created by SchrwsK on 2016-12-26.

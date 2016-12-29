@@ -36,7 +36,6 @@ public class Util {
         try {
             if (httpclient == null) httpclient = getHttpClient();
             HttpResponse response;
-            HttpEntity entity;
 
             HttpPost httpost = new HttpPost("https://bis.sasa.hs.kr/lib/session.php");
 
@@ -45,27 +44,20 @@ public class Util {
             nvps.add(new BasicNameValuePair("passwd", passwd));
             httpost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.ISO_8859_1));
             response = httpclient.execute(httpost);
-            entity = response.getEntity();
             System.out.println(response.getStatusLine());
-            BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(entity.getContent()));
-            String line;
-            StringBuilder result = new StringBuilder();
-            while ((line = rd.readLine()) != null)
-                result.append(line);
-            rd.close();
 
-            return result.toString().contains("info.php");
+            return getResult(response.getEntity()).contains("info.php");
         } catch (Exception e) {e.printStackTrace();return false;}
     }
 
     public static String loadFromWeb(String url) throws Exception {
         HttpGet httpget = new HttpGet(url);
-        //  httpget_goto.setEntity(new UrlEncodedFormEntity(nvps, HTTP.ISO_8859_1));
         HttpResponse response = httpclient.execute(httpget);
-        HttpEntity entity = response.getEntity();
-        BufferedReader rd = null;
-        if (entity != null) rd = new BufferedReader(new java.io.InputStreamReader(entity.getContent()));
-        if (rd == null) return null;
+        return getResult(response.getEntity());
+    }
+
+    private static String getResult(HttpEntity entity) throws Exception {
+        BufferedReader rd = new BufferedReader(new java.io.InputStreamReader(entity.getContent()));
         String line;
         StringBuilder result = new StringBuilder();
         while ((line = rd.readLine()) != null)
