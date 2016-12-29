@@ -19,6 +19,10 @@
             </Label>
             <GridPane fx:id="post_list" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
             <VBox fx:id="meal_list" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <HBox GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <Button fx:id="pdate" text="Prev" onAction="#dateClicked"/>
+                <Button fx:id="ndate" text="Next" onAction="#dateClicked"/>
+            </HBox>
         </GridPane>
     </Tab>
     <Tab fx:id="noticetab" closable="false" text="공지사항" onSelectionChanged="#tabChanged">

@@ -18,7 +18,10 @@ import proj.Init;
 import proj.Item.PostItem;
 import proj.Util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
@@ -28,12 +31,16 @@ import java.util.concurrent.FutureTask;
 public class MainController extends Controller { //글 목록 등 여러 탭의 내용을 관리하는 Controller.
     private List<PostItem> postItems;
     private List<Label> labels;
+    private Calendar now;
+    private SimpleDateFormat sdfDate;
     @FXML
     private VBox meal_list;
     @FXML
     private GridPane post_list, notice_list, lost_list, subj_list, free_list;
     @FXML
-    private Tab noticetab, losttab, subjtab, freetab;
+    private Tab maintab, noticetab, losttab, subjtab, freetab;
+    @FXML
+    private Button ndate, pdate;
     @FXML
     private Pagination pagination_notice, pagination_lost, pagination_subj, pagination_free;
 
@@ -42,6 +49,8 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
     public void initialize() throws Exception { //메인 화면 구성 시 초기화 - 각종 이벤트 설정
         primaryStage = Init.getPrimaryStage();
         postStage = Init.getPostStage();
+        now = Calendar.getInstance();
+        sdfDate = new SimpleDateFormat("yyyy-MM-dd");
         pagination_notice.currentPageIndexProperty()
                 .addListener((observable, oldValue, newValue) -> loadContent(noticetab, new BoardRunnable(notice_list, newValue.intValue() + 1, 1)));
         pagination_lost.currentPageIndexProperty()
@@ -64,11 +73,20 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
     public void tabChanged(Event event) { //Tab이 바뀐 것을 감지하는 이벤트. 탭이 바뀌면 해당 탭의 내용을 불러오도록 함.
         Tab tab = (Tab) event.getSource();
         switch (tab.getId()) {
-            case "maintab": loadContent(tab, mainRunnable); break;
+            case "maintab": loadContent(tab, new MainRunnable()); break;
             case "noticetab": loadContent(tab, new BoardRunnable(notice_list, 1, 1)); break;
             case "losttab": loadContent(tab, new BoardRunnable(lost_list, 1, 2)); break;
             case "subjtab": loadContent(tab, new BoardRunnable(subj_list, 1, 9)); break;
             case "freetab": loadContent(tab, new BoardRunnable(free_list, 1, 5)); break;
+        }
+    }
+
+    @FXML
+    public void dateClicked(Event event) { //날짜 변경 버튼이 눌렸을 때 새로 로드
+        Button button = (Button) event.getSource();
+        switch (button.getId()) {
+            case "ndate": now.add(Calendar.DATE, 1); loadContent(maintab, new MainRunnable(sdfDate.format(now.getTime()))); break;
+            case "pdate": now.add(Calendar.DATE, -1); loadContent(maintab, new MainRunnable(sdfDate.format(now.getTime()))); break;
         }
     }
 
@@ -92,13 +110,18 @@ public class MainController extends Controller { //글 목록 등 여러 탭의 
         }
     }
 
-    private Runnable mainRunnable = new Runnable() { //메인화면의 내용을 불러와 표시함.
+    private class MainRunnable implements Runnable { //메인화면의 내용을 불러와 표시함.
+        String link = "https://bis.sasa.hs.kr/info.php";
+
+        public MainRunnable() {}
+        public MainRunnable(String date) {this.link = link + "?date=" + date;}
+
         @Override
         public void run() {
             try {
                 postItems = new ArrayList<>();
                 labels = new ArrayList<>();
-                String result = Util.loadFromWeb("https://bis.sasa.hs.kr/info.php");
+                String result = Util.loadFromWeb(link);
 
                 Source source = new Source(result);
                 Element tbody_post = source.getAllElements(HTMLElementName.TABLE).get(0).getAllElements(HTMLElementName.TBODY).get(0);
