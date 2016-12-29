@@ -25,25 +25,21 @@ import java.util.concurrent.FutureTask;
 /**
  * Created by SchrwsK on 2016-12-26.
  */
-public class MainController extends Controller {
-    List<PostItem> postItems;
-    List<Label> labels;
-    @FXML
-    private Label title;
+public class MainController extends Controller { //글 목록 등 여러 탭의 내용을 관리하는 Controller.
+    private List<PostItem> postItems;
+    private List<Label> labels;
     @FXML
     private VBox meal_list;
     @FXML
-    private TabPane tabpane;
-    @FXML
     private GridPane post_list, notice_list, lost_list, subj_list, free_list;
     @FXML
-    private Tab maintab, noticetab, losttab, subjtab, freetab;
+    private Tab noticetab, losttab, subjtab, freetab;
     @FXML
     private Pagination pagination_notice, pagination_lost, pagination_subj, pagination_free;
 
     @FXML
     @Override
-    public void initialize() throws Exception {
+    public void initialize() throws Exception { //메인 화면 구성 시 초기화 - 각종 이벤트 설정
         primaryStage = Init.getPrimaryStage();
         postStage = Init.getPostStage();
         pagination_notice.currentPageIndexProperty()
@@ -54,19 +50,18 @@ public class MainController extends Controller {
                 .addListener((observable, oldValue, newValue) -> loadContent(subjtab, new BoardRunnable(subj_list, newValue.intValue() + 1, 9)));
         pagination_free.currentPageIndexProperty()
                 .addListener((observable, oldValue, newValue) -> loadContent(freetab, new BoardRunnable(free_list, newValue.intValue() + 1, 5)));
-        loadContent();
     }
 
     @Override
-    public void loadContent() {
+    public void loadContent() { //탭이 여러개이므로 각각 표시해야할 위치가 다르므로 사용하지 않음.
     }
 
-    private void loadContent(Tab tab, Runnable runnable) {
+    private void loadContent(Tab tab, Runnable runnable) { // loacContent() 대신 표시해야 할 위치 및 내용을 받아 다른 Thread를 실행시킨다.
         if (tab.isSelected()) new Thread(runnable).start();
     }
 
     @FXML
-    public void tabChanged(Event event) {
+    public void tabChanged(Event event) { //Tab이 바뀐 것을 감지하는 이벤트. 탭이 바뀌면 해당 탭의 내용을 불러오도록 함.
         Tab tab = (Tab) event.getSource();
         switch (tab.getId()) {
             case "maintab": loadContent(tab, mainRunnable); break;
@@ -77,7 +72,7 @@ public class MainController extends Controller {
         }
     }
 
-    private void addPost(GridPane pane) {
+    private void addPost(GridPane pane) { //공지사항, 분실물 등 같은 내용의 코드가 있어 하나의 메소드로 처리함. 글의 목록을 화면에 표시함.
         pane.getChildren().clear();
         for (int i = 0; i < postItems.size(); i++) {
             PostItem item = postItems.get(i);

@@ -2,9 +2,7 @@
 
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <TabPane fx:id="tabpane" prefWidth="1300" prefHeight="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proj.Controller.MainController">
     <Tab fx:id="maintab" closable="false" text="Main" onSelectionChanged="#tabChanged">

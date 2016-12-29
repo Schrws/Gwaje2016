@@ -18,7 +18,7 @@ import java.util.concurrent.FutureTask;
 /**
  * Created by SchrwsK on 2016-12-27.
  */
-public class PostController extends Controller{
+public class PostController extends Controller { //게시글의 내용을 화면에 표시하는 Controller.
     @FXML
     Text title, author;
     @FXML
@@ -27,7 +27,7 @@ public class PostController extends Controller{
     Hyperlink browser;
 
     @Override
-    public void loadContent() {
+    public void loadContent() { //Controller에서 상속받아 반드시 구현하도록 되어 있으며, 게시글의 내용을 불러와 표시한다.
         new Thread(() -> {
             try {
                 String link = "https://bis.sasa.hs.kr" + postStage.getUserData().toString();
@@ -48,7 +48,7 @@ public class PostController extends Controller{
                     });
                     postStage.sizeToScene();
                 }, null));
-            } catch (Exception ignored) {ignored.printStackTrace();}
+            } catch (Exception ignored) {}
         }).start();
     }
 }

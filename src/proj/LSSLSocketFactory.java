@@ -15,10 +15,10 @@ import java.security.cert.X509Certificate;
 /**
  * Created by SchrwsK on 2016-12-27.
  */
-public class SFSSLSocketFactory extends SSLSocketFactory {
+public class LSSLSocketFactory extends SSLSocketFactory { //http://blog.saltfactory.net/android/using-https-on-android.html - SSLSocketFactory를 통해 SSL 인증을 할 수 있도록 함.
     SSLContext sslContext = SSLContext.getInstance("TLS");
 
-    public SFSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+    public LSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException, UnrecoverableKeyException {
         super(truststore);
 
         TrustManager tm = new X509TrustManager() {
