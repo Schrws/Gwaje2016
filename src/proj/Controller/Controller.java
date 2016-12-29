@@ -7,7 +7,7 @@ import proj.Init;
 /**
  * Created by SchrwsK on 2016-12-27.
  */
-public abstract class Controller { //공통적인 COntroller
+public abstract class Controller { //공통적인 Controller
     Stage primaryStage, postStage;
 
     @FXML
